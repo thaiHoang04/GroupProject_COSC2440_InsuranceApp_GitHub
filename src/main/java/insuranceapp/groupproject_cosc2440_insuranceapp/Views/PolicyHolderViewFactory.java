@@ -70,6 +70,15 @@ public class PolicyHolderViewFactory {
         loader.setController(new UpdatePolicyHolderInfoViewController(PolicyHolderModel.getInstance().getPolicyHolder()));
         createSubStage(loader, "Update Policy Holder Info");
     }
+    public void closeStage(Stage stage) {
+        stage.close();
+    }
+
+    public void closeCurrentSubStage() {
+        currentSubStage.close();
+        subStageIsOpened = false;
+    }
+
 
     private void createStage(FXMLLoader loader) {
         Scene scene = null;

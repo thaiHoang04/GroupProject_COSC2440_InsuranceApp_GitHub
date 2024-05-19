@@ -1370,4 +1370,52 @@ public class DatabaseDriver {
             e.printStackTrace();
         }
     }
+    public String getPasswordById(String id){
+        String password = null;
+        ResultSet rs = null;
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT password FROM account WHERE id = ?")) {
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                password = rs.getString("password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return password;
+    }
+    public String getUsernameById(String id) {
+        String username = null;
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM account WHERE id = ?")) {
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                username = rs.getString("username");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return username;
+    }
+    public void updateNameAndPWPolicyHolderById(String id) {
+        try (PreparedStatement pstmt = conn.prepareStatement("UPDATE account SET username = ?, password = ?  WHERE id = ?")) {
+            pstmt.setString(1, PolicyHolderModel.getInstance().getPolicyHolder().getUsername());
+            pstmt.setString(2, PolicyHolderModel.getInstance().getPolicyHolder().getPassword());
+            pstmt.setString(3, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateEmailAddressPhonePolicyHolderById(String id) {
+        try (PreparedStatement pstmt = conn.prepareStatement("UPDATE policy_holders SET address = ?, phone_number = ?, email = ? WHERE pid = ?")) {
+            pstmt.setString(1, PolicyHolderModel.getInstance().getPolicyHolder().getAddress());
+            pstmt.setString(2, PolicyHolderModel.getInstance().getPolicyHolder().getPhoneNumber());
+            pstmt.setString(3, PolicyHolderModel.getInstance().getPolicyHolder().getEmail());
+            pstmt.setString(4, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

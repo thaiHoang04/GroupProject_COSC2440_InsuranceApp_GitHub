@@ -1,6 +1,8 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner;
 
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.DatabaseDriver;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolder;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -25,28 +27,28 @@ public class UpdatePolicyHolderInfoViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ResultSet rs = PolicyOwnerModel.getInstance().getDatabaseDriver().getAccountDataById(policyHolder.getId());
-        String username = null, password = null;
-        try {
-            if (rs.next()) {
-                username = rs.getString("username");
-                password = rs.getString("password");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        nameTxtField.setText(policyHolder.getFullName());
+        phoneTxtField.setText(PolicyHolderModel.getInstance().getPolicyHolder().getPhoneNumber());
+        emailTxtField.setText(PolicyHolderModel.getInstance().getPolicyHolder().getEmail());
+        addressTxtField.setText(PolicyHolderModel.getInstance().getPolicyHolder().getAddress());
+        String password = PolicyHolderModel.getInstance().getDatabaseDriver().getPasswordById(PolicyHolderModel.getInstance().getPolicyHolder().getId());
         pwdTxtField.setText(password);
-        phoneTxtField.setText(policyHolder.getPhoneNumber());
-        emailTxtField.setText(policyHolder.getEmail());
-        addressTxtField.setText(policyHolder.getAddress());
-        String finalUsername = username;
-        saveBtn.setOnAction(actionEvent -> {
-            PolicyOwnerModel.getInstance().getDatabaseDriver().updateAccountData(finalUsername, pwdTxtField.getText(), policyHolder.getId());
-            PolicyOwnerModel.getInstance().getDatabaseDriver().updatePolicyHolder(policyHolder.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
-            PolicyOwnerModel.getInstance().updatePolicyHolders(policyHolder.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
-            PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeCurrentSubStage();
-            PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE POLICY HOLDER INFORMATION OF " + policyHolder.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+        String username = PolicyHolderModel.getInstance().getDatabaseDriver().getUsernameById(PolicyHolderModel.getInstance().getPolicyHolder().getId());
+        nameTxtField.setText(username);
+        nameTxtField.setEditable(false);
+        saveBtn.setOnAction(event -> {
+            //PolicyHolderModel.getInstance().getDatabaseDriver().updateAccountData(username,password,PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            PolicyHolderModel.getInstance().getPolicyHolder().setUsername(nameTxtField.getText());
+            PolicyHolderModel.getInstance().getPolicyHolder().setEmail(emailTxtField.getText());
+            PolicyHolderModel.getInstance().getPolicyHolder().setPhoneNumber(phoneTxtField.getText());
+            PolicyHolderModel.getInstance().getPolicyHolder().setAddress(addressTxtField.getText());
+            PolicyHolderModel.getInstance().getPolicyHolder().setPassword(pwdTxtField.getText());
+            PolicyHolderModel.getInstance().getDatabaseDriver().updateNameAndPWPolicyHolderById(PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            PolicyHolderModel.getInstance().getDatabaseDriver().updateEmailAddressPhonePolicyHolderById(PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            PolicyHolderModel.getInstance().getPolicyHolderViewFactory().closeCurrentSubStage();
+//            DatabaseDriver databaseDriver = new DatabaseDriver();
+//            databaseDriver.recordActivityHistory("UPDATE POLICY HOLDER INFORMATION OF " + PolicyHolderModel.getInstance().getPolicyHolder().getId(), PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            PolicyHolderModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE POLICY HOLDER INFORMATION OF " + PolicyHolderModel.getInstance().getPolicyHolder().getId(), PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            System.out.println("UPDATE POLICY HOLDER INFORMATION OF"  + PolicyHolderModel.getInstance().getPolicyHolder().getId());
         });
     }
 }
