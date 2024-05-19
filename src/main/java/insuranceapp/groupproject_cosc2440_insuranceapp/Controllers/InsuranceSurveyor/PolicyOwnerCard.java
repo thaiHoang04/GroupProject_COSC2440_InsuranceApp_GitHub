@@ -1,10 +1,15 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.InsuranceSurveyor;
 
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwner;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Views.InsuranceSurveyor.InsuranceSurveyorPolicyOwnerDetailView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,5 +49,17 @@ public class PolicyOwnerCard implements Initializable {
 
     public void onButtonViewClick(PolicyOwner owner) {
         System.out.println("Click" + owner.getId());
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/InsuranceManager/PolicyOwnerDetail.fxml"));
+            fxmlLoader.setController(new InsuranceSurveyorPolicyOwnerDetailView(owner));
+            Stage stage = new Stage();
+            stage.setTitle("Policy Owner Detail of  " + owner.getId());
+            stage.setScene(new Scene(fxmlLoader.load()));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("startPolicyOwnerDetail error" + e.getMessage());
+        }
     }
 }

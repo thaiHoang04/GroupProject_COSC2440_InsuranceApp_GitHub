@@ -1222,4 +1222,17 @@ public class DatabaseDriver {
             e.printStackTrace();
         }
     }
+
+    public void getEmployeeDataById(String id) {
+        ResultSet rs = null;
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM account WHERE id = ?")) {
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                EmployeeModel.getInstance().setEmployeeModel(rs.getString("id"), rs.getString("username"), rs.getString("role"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

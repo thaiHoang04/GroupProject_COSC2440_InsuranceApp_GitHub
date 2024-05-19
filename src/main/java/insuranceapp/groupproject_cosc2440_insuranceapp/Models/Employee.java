@@ -10,6 +10,14 @@ public class Employee {
     private StringProperty fullName;
     private StringProperty email;
 
+    public Employee() {
+        this.id = new SimpleStringProperty(this, "id", "");
+        this.phone = new SimpleStringProperty(this, "phone", "");
+        this.address = new SimpleStringProperty(this, "address", "");
+        this.fullName = new SimpleStringProperty(this, "fullName", "");
+        this.email = new SimpleStringProperty(this, "email", "");
+    }
+
     public Employee(String id, String phone, String address, String fullName, String email) {
         this.id = new SimpleStringProperty(this, "id", id);
         this.phone = new SimpleStringProperty(this, "phone", phone);

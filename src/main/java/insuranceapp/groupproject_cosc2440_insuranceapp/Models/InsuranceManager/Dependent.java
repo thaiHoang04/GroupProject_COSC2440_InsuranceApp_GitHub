@@ -16,7 +16,7 @@ public class Dependent extends Customer{
     public Dependent(String customerID, String fullName, String email, String address, String phoneNumber, String insuranceCard, String policyOwner, String policyHolder) {
         super(customerID, fullName, email, address, phoneNumber, insuranceCard, policyOwner);
         this.policyHolder = new SimpleStringProperty(this, "Policy Holder", policyHolder);
-        this.claimList = FXCollections.observableArrayList();;
+        this.claimList = FXCollections.observableArrayList();
     }
 
     public StringProperty policyHolderProperty() {
