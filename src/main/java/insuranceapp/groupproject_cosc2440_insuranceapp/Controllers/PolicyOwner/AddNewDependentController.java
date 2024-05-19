@@ -22,8 +22,6 @@ public class AddNewDependentController implements Initializable {
     public Button saveBtn;
     public Label errorLbl;
 
-    private PolicyHolder policyHolder;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         saveBtn.setOnAction(event -> {
@@ -46,16 +44,13 @@ public class AddNewDependentController implements Initializable {
                     PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeCurrent2ndSubStage();
 
                 } else {
-                    PolicyOwnerModel.getInstance().getViewFactory().getNotificationMsg().set("Add Dependent Failed");
-                    PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showNotificationMessage();
+                    errorLbl.setVisible(true);
                 }
             } else {
                 errorLbl.setVisible(true);
             }
         });
     }
-
-
 
     public boolean checkEnoughInfo() {
         return !(nameTxtField.getText().isEmpty()) && !(pwdTxtField.getText().isEmpty()) && !(usernameTxtField.getText().isEmpty()) &&!(phoneNumTxtField.getText().isEmpty()) && !(emailTxtField.getText().isEmpty()) && !(addressTxtField.getText().isEmpty());

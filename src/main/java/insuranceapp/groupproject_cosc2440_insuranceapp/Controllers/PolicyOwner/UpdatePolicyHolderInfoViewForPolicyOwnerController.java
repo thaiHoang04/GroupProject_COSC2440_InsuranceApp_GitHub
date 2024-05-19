@@ -10,7 +10,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
-public class UpdatePolicyHolderInfoViewController implements Initializable {
+public class UpdatePolicyHolderInfoViewForPolicyOwnerController implements Initializable {
     public TextField nameTxtField;
     public TextField pwdTxtField;
     public TextField phoneTxtField;
@@ -19,7 +19,7 @@ public class UpdatePolicyHolderInfoViewController implements Initializable {
     public Button saveBtn;
     private PolicyHolder policyHolder;
 
-    public UpdatePolicyHolderInfoViewController(PolicyHolder policyHolder) {
+    public UpdatePolicyHolderInfoViewForPolicyOwnerController(PolicyHolder policyHolder) {
         this.policyHolder = policyHolder;
     }
 

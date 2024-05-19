@@ -40,9 +40,6 @@ public class PolicyHolderCellController implements Initializable {
                 PolicyOwnerModel.getInstance().getPolicyHolders().remove(policyHolder);
                 PolicyOwnerModel.getInstance().getViewFactory().getNotificationMsg().set("Delete policy holder Success");
                 PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE POLICY HOLDER " + policyHolder.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
-            } else {
-                PolicyOwnerModel.getInstance().getViewFactory().getNotificationMsg().set("Delete policy holder Failed");
-                PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showNotificationMessage();
             }
         });
     }

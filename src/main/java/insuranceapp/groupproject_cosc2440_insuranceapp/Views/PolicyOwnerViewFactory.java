@@ -3,7 +3,7 @@ package insuranceapp.groupproject_cosc2440_insuranceapp.Views;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.PolicyOwnerClaimViewController;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.PolicyOwnerPolicyHolderViewController;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.UpdateDependentInfoViewController;
-import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.UpdatePolicyHolderInfoViewController;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.UpdatePolicyHolderInfoViewForPolicyOwnerController;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Dependent;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -114,10 +114,7 @@ public class PolicyOwnerViewFactory {
         create2ndSubStage(loader, "Add new dependent policy.");
     }
 
-    public void showNotificationMessage() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PolicyOwner/NotificationView.fxml"));
-        createSubStage(loader, "Notification!");
-    }
+
 
     public void showUpdateInfoWindow() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PolicyOwner/UpdatePolicyOwnerInfoView.fxml"));
@@ -131,7 +128,7 @@ public class PolicyOwnerViewFactory {
 
     public void showUpdatePolicyHolderView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PolicyOwner/UpdatePolicyHolderInfoView.fxml"));
-        loader.setController(new UpdatePolicyHolderInfoViewController(PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder()));
+        loader.setController(new UpdatePolicyHolderInfoViewForPolicyOwnerController(PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder()));
         createSubStage(loader, "Update Policy Holder Info");
     }
 

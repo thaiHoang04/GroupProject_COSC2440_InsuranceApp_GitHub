@@ -1,8 +1,8 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Views;
 
-import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.UpdatePolicyHolderInfoViewController;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyHolder.UpdatePolicyHolderInfoViewController;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.UpdatePolicyHolderInfoViewForPolicyOwnerController;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
-import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
@@ -67,8 +67,21 @@ public class PolicyHolderViewFactory {
 
     public void showUpdatePolicyHolderView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PolicyOwner/UpdatePolicyHolderInfoView.fxml"));
-        loader.setController(new UpdatePolicyHolderInfoViewController(PolicyHolderModel.getInstance().getPolicyHolder()));
+        loader.setController(new UpdatePolicyHolderInfoViewController());
         createSubStage(loader, "Update Policy Holder Info");
+    }
+
+    public void showUpdatePolicyHolderInfoWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PolicyOwner/UpdatePolicyHolderInfoView.fxml"));
+        loader.setController(new UpdatePolicyHolderInfoViewController());
+        createSubStage(loader, "Update Policy Holder Info");
+    }
+
+    public void closeCurrentSubStage() {
+        if (subStageIsOpened) {
+            currentSubStage.close();
+            subStageIsOpened = false;
+        }
     }
 
     private void createStage(FXMLLoader loader) {

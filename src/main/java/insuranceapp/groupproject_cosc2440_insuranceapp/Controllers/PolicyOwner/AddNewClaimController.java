@@ -34,7 +34,7 @@ public class AddNewClaimController implements Initializable {
     public List<File> uploadedFileList;
     public Label saveBtnErrorLbl;
 
-    Executor executor;
+    private Executor executor;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,8 +97,7 @@ public class AddNewClaimController implements Initializable {
                     PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeCurrentSubStage();
 
                 } else {
-                    PolicyOwnerModel.getInstance().getViewFactory().getNotificationMsg().set("Add Claim Failed");
-                    PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showNotificationMessage();
+                    saveBtnErrorLbl.setText("Error: Cannot save the claim");
                 }
                 saveBtnErrorLbl.setText("");
             } else {
@@ -134,8 +133,6 @@ public class AddNewClaimController implements Initializable {
             PolicyOwnerModel.getInstance().setDependents();
         }
     }
-
-
 
     public boolean checkEnoughInfo() {
         return !(insuredPersonComboBox.getValue() == null) && !(claimDatePicker.getValue() == null) && (cardNumTextField.getText().length() == 10) && cardNumTextField.getText().matches("\\d+") && !(examDatePicker.getValue() == null) && !(claimAmountTextField.getText().isEmpty()) && !(bankNameTextField.getText().isEmpty()) && !(bankNumTextField.getText().isEmpty());

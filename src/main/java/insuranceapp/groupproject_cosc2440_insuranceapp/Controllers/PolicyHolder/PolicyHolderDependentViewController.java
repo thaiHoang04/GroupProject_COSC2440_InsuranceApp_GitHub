@@ -34,7 +34,7 @@ public class PolicyHolderDependentViewController implements Initializable {
         int numOfDependents = PolicyHolderModel.getInstance().getDependents().size();
         noDependentLbl.setVisible(numOfDependents == 0);
         updateInfoOpt.setOnAction(event -> {
-            PolicyHolderModel.getInstance().getPolicyHolderViewFactory().showUpdatePolicyHolderView();
+            PolicyHolderModel.getInstance().getPolicyHolderViewFactory().showUpdatePolicyHolderInfoWindow();
         });
         searchBar.textProperty().addListener(new ChangeListener<String>() {
             @Override
