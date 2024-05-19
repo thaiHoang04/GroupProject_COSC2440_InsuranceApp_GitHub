@@ -50,7 +50,6 @@ public class PolicyOwnerModel {
         return policyOwnerViewFactory;
     }
 
-
     public PolicyOwner getPolicyOwner() {
         return policyOwner;
     }
@@ -126,7 +125,7 @@ public class PolicyOwnerModel {
 
     public void setDependentsOfCurrentPolicyHolder() {
         this.dependentsOfCurrentPolicyHolder = FXCollections.observableArrayList();
-        databaseDriver.getListDependentByPolicyHolderId(this.currentSelectedPolicyHolder.getId());
+        databaseDriver.getListDependentByPolicyHolderId(this.currentSelectedPolicyHolder.getId(), "PO");
     }
 
     public void setCurrentSelectedPolicyHolder(PolicyHolder policyHolder) {

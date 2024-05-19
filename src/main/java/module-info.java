@@ -27,4 +27,5 @@ module insuranceapp.groupproject_cosc2440_insuranceapp {
     opens insuranceapp.groupproject_cosc2440_insuranceapp.Views.InsuranceManager to javafx.fxml;
     exports insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.InsuranceManager;
     opens insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.InsuranceManager to javafx.fxml;
+    exports insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyHolder;
 }

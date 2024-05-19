@@ -451,6 +451,45 @@ public class DatabaseDriver {
         return claimList;
     }
 
+    public List<Claim> searchListClaimForPolicyHolder(String searchString, String fileterStatus, String id) {
+        List<Claim> claimList = new ArrayList<>();
+        String sqlStatement = "";
+        if (fileterStatus != null && !fileterStatus.equals("ALL")) {
+            sqlStatement = "SELECT * FROM claims WHERE fid LIKE ? AND status = ? AND card_number = ?";
+        } else {
+            sqlStatement = "SELECT * FROM claims WHERE fid LIKE ? AND card_number = ?";
+        }
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlStatement)) {
+            pstmt.setString(1, "%" + searchString + "%");
+            if (fileterStatus != null && fileterStatus != "ALL") {
+                pstmt.setString(2, fileterStatus);
+                pstmt.setString(3, id);
+            } else {
+                pstmt.setString(2, id);
+            }
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String fid, insuredPerson, insuranceCardNumber, claimAmount, status, receiverBankingInfo;
+                Date claimDate, examDate;
+                fid = rs.getString("fid");
+                claimDate = rs.getDate("claim_date");
+                insuredPerson = rs.getString("insured_person");
+                insuranceCardNumber = rs.getString("card_number");
+                claimAmount = rs.getString("claim_amount");
+                claimAmount = claimAmount.substring(1);
+                claimAmount = claimAmount.replace(",", "");
+                examDate = rs.getDate("exam_date");
+                status = rs.getString("status");
+                receiverBankingInfo = rs.getString("receiver_banking_info");
+                Claim claim = new Claim(fid, claimDate.toLocalDate(), insuredPerson, insuranceCardNumber, examDate.toLocalDate(), Double.parseDouble(claimAmount) ,status, receiverBankingInfo);
+                claimList.add(claim);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return claimList;
+    }
+
     public List<PolicyHolder> getListPolicyHolderById(String searchString, String poid) {
         List<PolicyHolder> policyHolderList = new ArrayList<>();
         String sqlStatement;
@@ -480,6 +519,30 @@ public class DatabaseDriver {
             e.printStackTrace();
         }
         return policyHolderList;
+    }
+
+    public List<Dependent> searchListDependentById(String searchString, String pid) {
+        List<Dependent> dependentsList = new ArrayList<>();
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM dependents WHERE did LIKE ? AND insurance_card = ?")) {
+            pstmt.setString(1, "%" + searchString + "%");
+            pstmt.setString(2, pid);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String did, fullName, insuranceCardNumber, email, phoneNumber, address, poid;
+                did = rs.getString("did");
+                fullName = rs.getString("full_name");
+                insuranceCardNumber = rs.getString("insurance_card");
+                email = rs.getString("email");
+                phoneNumber = rs.getString("phone_number");
+                address = rs.getString("address");
+                poid = rs.getString("poid");
+                Dependent dependent = new Dependent(did, fullName, insuranceCardNumber, phoneNumber, email, address, pid, poid);
+                dependentsList.add(dependent);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dependentsList;
     }
 
     public List<PolicyOwner> getListPolicyOwnerForAdmin(String searchString) {
@@ -569,6 +632,44 @@ public class DatabaseDriver {
         try (PreparedStatement pstmt = conn.prepareStatement(sqlStatement)) {
             if (searchString != "ALL") {
                 pstmt.setString(1, searchString);
+            }
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String fid, insuredPerson, insuranceCardNumber, claimAmount, status, receiverBankingInfo;
+                Date claimDate, examDate;
+                fid = rs.getString("fid");
+                claimDate = rs.getDate("claim_date");
+                insuredPerson = rs.getString("insured_person");
+                insuranceCardNumber = rs.getString("card_number");
+                claimAmount = rs.getString("claim_amount");
+                claimAmount = claimAmount.substring(1);
+                claimAmount = claimAmount.replace(",", "");
+                examDate = rs.getDate("exam_date");
+                status = rs.getString("status");
+                receiverBankingInfo = rs.getString("receiver_banking_info");
+                Claim claim = new Claim(fid, claimDate.toLocalDate(), insuredPerson, insuranceCardNumber, examDate.toLocalDate(), Double.parseDouble(claimAmount) ,status, receiverBankingInfo);
+                claimList.add(claim);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return claimList;
+    }
+
+    public List<Claim> searchListClaimByStatusForPolicyHolder(String searchString, String id) {
+        List<Claim> claimList = new ArrayList<>();
+        String sqlStatement;
+        if (searchString == "ALL") {
+            sqlStatement = "SELECT * FROM claims WHERE card_number = ?";
+        } else {
+            sqlStatement = "SELECT * FROM claims WHERE status = ? AND card_number = ?";
+        }
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlStatement)) {
+            if (searchString != "ALL") {
+                pstmt.setString(1, searchString);
+                pstmt.setString(2, id);
+            } else {
+                pstmt.setString(1, id);
             }
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -955,6 +1056,32 @@ public class DatabaseDriver {
         }
     }
 
+    public void getListClaimForPolicyHolder(String id) {
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM claims WHERE card_number = ?")) {
+            System.out.println(id);
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String fid, insuredPerson, insuranceCardNumber, claimAmount, status, receiverBankingInfo;
+                Date claimDate, examDate;
+                fid = rs.getString("fid");
+                claimDate = rs.getDate("claim_date");
+                insuredPerson = rs.getString("insured_person");
+                insuranceCardNumber = rs.getString("card_number");
+                claimAmount = rs.getString("claim_amount");
+                claimAmount = claimAmount.substring(1);
+                claimAmount = claimAmount.replace(",", "");
+                examDate = rs.getDate("exam_date");
+                status = rs.getString("status");
+                receiverBankingInfo = rs.getString("receiver_banking_info");
+                Claim claim = new Claim(fid, claimDate.toLocalDate(), insuredPerson, insuranceCardNumber, examDate.toLocalDate(), Double.parseDouble(claimAmount) ,status, receiverBankingInfo);
+                PolicyHolderModel.getInstance().addClaim(claim);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void getListPolicyOwnerForAdmin() {
         try (Statement pstmt = conn.createStatement()) {
             ResultSet rs = pstmt.executeQuery("SELECT * FROM policy_owners");
@@ -1015,7 +1142,7 @@ public class DatabaseDriver {
         }
     }
 
-    public void getListDependentByPolicyHolderId(String id) {
+    public void getListDependentByPolicyHolderId(String id, String role) {
         try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM dependents WHERE pid = ?")) {
             pstmt.setString(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -1030,7 +1157,11 @@ public class DatabaseDriver {
                 policyHolderId = rs.getString("pid");
                 policyOwnerId = rs.getString("poid");
                 Dependent dependent = new Dependent(idPH, fullName, insuranceCard, phoneNum, email, address, policyHolderId, policyOwnerId);
-                PolicyOwnerModel.getInstance().addDependentsOfCurrentPolicyHolder(dependent);
+                if (role.equals("PO")) {
+                    PolicyOwnerModel.getInstance().addDependentsOfCurrentPolicyHolder(dependent);
+                } else {
+                    PolicyHolderModel.getInstance().addDependent(dependent);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -1105,6 +1236,19 @@ public class DatabaseDriver {
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 PolicyOwnerModel.getInstance().evaluatePolicyOwnerCred(rs.getString("poid"), rs.getString("name"), rs.getString("fee"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getPolicyHolderDataById(String id) {
+        ResultSet rs = null;
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM policy_holders WHERE pid = ?")) {
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                PolicyHolderModel.getInstance().evaluatePolicyHolder(rs.getString("pid"), rs.getString("full_name"), rs.getString("insurance_card"), rs.getString("phone_number"), rs.getString("email"), rs.getString("address"), rs.getString("poid"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

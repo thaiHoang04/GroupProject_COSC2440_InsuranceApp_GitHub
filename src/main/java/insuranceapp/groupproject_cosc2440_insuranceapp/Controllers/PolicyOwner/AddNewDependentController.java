@@ -2,6 +2,7 @@ package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner;
 
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Dependent;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolder;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -32,10 +33,18 @@ public class AddNewDependentController implements Initializable {
                 Dependent dependent = new Dependent(id, nameTxtField.getText(), PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder().getInsuranceCard() ,phoneNumTxtField.getText(), emailTxtField.getText(), addressTxtField.getText(), PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder().getId(), PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder().getPolicyOwnerId());
                 if (PolicyOwnerModel.getInstance().getDatabaseDriver().insertNewDependent(dependent) && PolicyOwnerModel.getInstance().getDatabaseDriver().insertAccountData(usernameTxtField.getText(), pwdTxtField.getText(), id, "D")){
                     PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().updateBeneficiariesView();
-                    PolicyOwnerModel.getInstance().addDependents(dependent);
-                    PolicyOwnerModel.getInstance().addDependentsOfCurrentPolicyHolder(dependent);
+                    if (!PolicyHolderModel.getInstance().getDependents().isEmpty()) {
+                        PolicyHolderModel.getInstance().addDependent(dependent);
+                        PolicyHolderModel.getInstance().getDatabaseDriver().recordActivityHistory("ADD NEW DEPENDENT " + dependent.getId(), PolicyHolderModel.getInstance().getPolicyHolder().getId());
+                        PolicyHolderModel.getInstance().updateDependentView();
+                    } else {
+                        PolicyOwnerModel.getInstance().addDependents(dependent);
+                        PolicyOwnerModel.getInstance().addDependentsOfCurrentPolicyHolder(dependent);
+                        PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("ADD NEW DEPENDENT " + dependent.getId() + " FOR " + PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder().getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+                    }
+
                     PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeCurrent2ndSubStage();
-                    PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("ADD NEW DEPENDENT " + dependent.getId() + " FOR " + PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder().getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+
                 } else {
                     PolicyOwnerModel.getInstance().getViewFactory().getNotificationMsg().set("Add Dependent Failed");
                     PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showNotificationMessage();

@@ -1,6 +1,8 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner;
 
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Claim;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolder;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Views.InsuranceSurveyor.InsuranceSurveyorClaimDetailView;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +36,10 @@ public class ClaimCellForPolicyOwnerController implements Initializable {
         claimDateLBl.textProperty().bind(claim.claimDateProperty().asString());
         insuredPersonLbl.textProperty().bind(claim.insuredPersonProperty());
         statusLbl.textProperty().bind(claim.statusProperty());
+        if (!PolicyHolderModel.getInstance().getClaims().isEmpty()) {
+            deleteClaim_Btn.setDisable(true);
+            deleteClaim_Btn.setVisible(false);
+        }
 
         //Set the tool tip for detail claim button
         Tooltip tooltip = new Tooltip("View all claim information");
@@ -52,8 +58,8 @@ public class ClaimCellForPolicyOwnerController implements Initializable {
 
         deleteClaim_Btn.setOnAction(event -> {
             PolicyOwnerModel.getInstance().getDatabaseDriver().deleteClaim(claim.getId());
-            PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().updateClaimView();
             PolicyOwnerModel.getInstance().deleteClaims(claim);
+            PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().updateClaimView();
             PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE CLAIM " + claim.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
         });
         detailClaimBtn.setOnAction(event -> {

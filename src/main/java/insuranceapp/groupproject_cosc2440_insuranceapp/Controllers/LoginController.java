@@ -45,7 +45,9 @@ public class LoginController implements Initializable {
                         PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeStage(stage);
                     }
                     case "PH" -> {
-                        System.out.println("Policy Holder");
+                        id = resultSet.getString("id");
+                        databaseDriver.getPolicyHolderDataById(id);
+                        PolicyHolderModel.getInstance().getPolicyHolderViewFactory().showPolicyHolderWindow();
                         PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeStage(stage);
                     }
                     case "D" -> {

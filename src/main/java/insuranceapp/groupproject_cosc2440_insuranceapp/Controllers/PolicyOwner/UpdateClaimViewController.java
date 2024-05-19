@@ -2,6 +2,7 @@ package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner;
 
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Claim;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.DocumentOrg;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import javafx.concurrent.Task;
 import javafx.fxml.Initializable;
@@ -81,11 +82,16 @@ public class UpdateClaimViewController implements Initializable {
             claim.setClaimAmount(claimAmountSpinner.getValue());
             claim.setReceiverBankingInfo(bankNameTxtField.getText() + "-" + bankNumTxtField.getText());
             PolicyOwnerModel.getInstance().getDatabaseDriver().updateClaim(claim);
-            PolicyOwnerModel.getInstance().updateClaims(claim);
             if (uploadedFileList != null) {
                 uploadFile(uploadedFileList, claim.getId(), claim.getInsuranceCardNumber());
             }
-            PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE CLAIM " + claim.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            if (!PolicyHolderModel.getInstance().getClaims().isEmpty()) {
+                PolicyHolderModel.getInstance().updateClaims(claim);
+                PolicyHolderModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE CLAIM " + claim.getId(), PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            } else {
+                PolicyOwnerModel.getInstance().updateClaims(claim);
+                PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE CLAIM " + claim.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            }
             PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeCurrentSubStage();
         });
 

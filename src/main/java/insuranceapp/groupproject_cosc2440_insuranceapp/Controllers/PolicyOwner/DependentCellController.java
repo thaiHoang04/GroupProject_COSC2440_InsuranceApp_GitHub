@@ -1,6 +1,7 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner;
 
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Dependent;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,7 +17,7 @@ public class DependentCellController implements Initializable {
     public Label dependentPhoneNumLbl;
     public Button updateInfoBtn;
     public Button deleteBtn;
-    private Dependent dependent;
+    private final Dependent dependent;
 
     public DependentCellController(Dependent dependent) {
         this.dependent = dependent;
@@ -33,9 +34,14 @@ public class DependentCellController implements Initializable {
             PolicyOwnerModel.getInstance().getDatabaseDriver().deleteDependent(dependent.getId());
             PolicyOwnerModel.getInstance().getDatabaseDriver().deleteClaimByCustomerId(dependent.getId());
             PolicyOwnerModel.getInstance().getDatabaseDriver().deleteAccountData(dependent.getId());
-            PolicyOwnerModel.getInstance().getDependentsOfCurrentPolicyHolder().remove(dependent);
-            PolicyOwnerModel.getInstance().getDependents().remove(dependent);
-            PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE DEPENDENT " + dependent.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            if (!PolicyHolderModel.getInstance().getDependents().isEmpty()) {
+                PolicyHolderModel.getInstance().getDependents().remove(dependent);
+                PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE DEPENDENT " + dependent.getId(), PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            } else {
+                PolicyOwnerModel.getInstance().getDependentsOfCurrentPolicyHolder().remove(dependent);
+                PolicyOwnerModel.getInstance().getDependents().remove(dependent);
+                PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE DEPENDENT " + dependent.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            }
         });
     }
 

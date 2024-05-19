@@ -52,13 +52,12 @@
         <Separator blendMode="OVERLAY" layoutX="328.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
         <StackPane prefHeight="35.0" prefWidth="110.0" HBox.hgrow="ALWAYS" />
     </HBox>
-   <StackPane disable="true" layoutX="8.0" layoutY="99.0" prefHeight="324.0" prefWidth="840.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
-      <children>
-         <Label fx:id="noDependentLbl" blendMode="OVERLAY" text="No dependents">
-            <font>
-               <Font name="System Bold" size="36.0" />
-            </font>
-         </Label>
-      </children>
-   </StackPane>
+    <StackPane disable="true" layoutX="8.0" layoutY="99.0" prefHeight="324.0" prefWidth="840.0"
+               AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+        <Label fx:id="noDependentLbl" blendMode="OVERLAY" text="No dependents">
+           <font>
+               <Font name="System Bold" size="36.0"/>
+           </font>
+        </Label>
+    </StackPane>
 </AnchorPane>
