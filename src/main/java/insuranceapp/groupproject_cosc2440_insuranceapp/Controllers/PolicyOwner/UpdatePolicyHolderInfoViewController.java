@@ -27,6 +27,7 @@ public class UpdatePolicyHolderInfoViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Update
         phoneTxtField.setText(PolicyHolderModel.getInstance().getPolicyHolder().getPhoneNumber());
         emailTxtField.setText(PolicyHolderModel.getInstance().getPolicyHolder().getEmail());
         addressTxtField.setText(PolicyHolderModel.getInstance().getPolicyHolder().getAddress());
