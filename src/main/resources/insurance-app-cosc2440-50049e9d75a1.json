@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "insurance-app-cosc2440",
+  "private_key_id": "50049e9d75a1cdb94843f7f9dd8f1c36012c2a5a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/nslSZ/vriDz9\nPjsIEok/bGLhdBVKkJyBUr3jSnNiyss/8tq+6/LwhxUQqh1BwcnWszeAmtdWnKAK\n9MoFnY5oesBvBNK10SEebIv6Z44U1WGqmLgFURz1vJCZ2z/1npPWDH/4geYks3EG\nGa60y+wjpiEgPFVCfDlMJkMF127en9PO7o7H2YP7yROXsuK/6H6fbHukxQ5chkXR\nfw7ZsQ/0YJF2gV+jY4F0OIrn3YEzu8UKAVDh4vELnxddQ/niUKpuLE5mYqcjvUGA\nDHzAy/OIwxFZ3bI65HkgDQmPHpzAHAFwMPQ7wuQ8BH3oSiACyyRWVwKsm65l7bUH\nVhiOljebAgMBAAECggEADFrPDS6iKgX/NK7J/JPBYKL63yFua//V72qnzptSxDhi\nEW31l6C76bEz9P6a40381wh4GCUjpDR2By7QRbtqXqcneCD9+vYQZhdGkS8TFJnL\nccXl+4XG0btGMX1W6t2+F2t35sxtS8l8DJIkVwjc4VGJSjxJnP9IbHX9FUfWIKld\nw+stANSUXn6DAIJ8h8ayldO4GrpR4sPUmKyyTh2aPNAFdoEOJJP1eKv7CCRqylXy\nJ0hZHSF+Mo60lIhD8j0jYSunYnFTc4qmkHoM+3RGd21j1aOxUVz6YTnN62l7sB2x\nO9gyuk1wkjaPPzNRzCBmCV2bryyIYKD0l6pkd712cQKBgQDw3pLsC2hhNGkVS/dN\n8Lc6EB0TzciQMzW2fiqMGHg0PQU00umpmCGyPtm6RpZhHtXvp/WHm5s4WY1zxC3D\nwEVCSxbkxdUb9kn9GTqKQMbd1d1vLxls0JSQfGr4XsOudGZTNg07VZZNWO9+B5H7\nnmIISMVD/Ys67CopqcM7d4eaawKBgQDLqDxRdiiqJoe8rnS5qLzc7a61kq6LPhUD\nfv5r3X2KLLGG1aomc1XMoC8P33DPwvFgI1dH5cM0AyrNuFuVAhTCinBYv565zizF\nSZyDoUuj6KTpznboQ15frOvw8d495dgSR76xcnpTuEVotCADtctG5otKIeOdirUU\n4paFWwmDkQKBgQDZ8Gl7ji7ZlPRnwp53NRB0RtQocQ/B+bPl9W5F6HYKvhOR4ixt\nuSrz/o4+T1QNeDsWZyBvnMnrSIwGbUEDV1rTSuHiCWZzsHrtuQAQy9+kJLgAu9sD\nbA6gVRLsu8HOfZ+ANu3t+9jND2VS4UKjKoGFAWMLy8NIgxr7K5FsoxBdFQKBgACK\na86Tj7wT6hxYIjsz9XxorSQSRaBdA9VEiwxiRCkPwVDoVFFR0RKAAl/6aeRDUjy9\nG0g3lfMXZw+ww517qe5yS6YQrC02HOxRK7c1wGuo/Hcaczpeo2uBnAbBvaNQbuht\nhFYYRbbfMF/8ynD4FJgVmJ0TxfTvH1f02g10lmvhAoGAJuCrCzCDOjNfSt0ulAep\n7PyjtTAbL8XiWl3tXnrEv0ZwuQ3lLEeWD9OUIwWzdmZXvPel26FF5PlKRkfOp7Wo\n2a2ugMM+f6d0Cuz0OMPR467C8xAAYy+FRXJifjkt2ffko7ICgT8nLZ3RxMUsNQ4O\nObZ6nUzowcpYgFnk+inGL+c=\n-----END PRIVATE KEY-----\n",
+  "client_email": "insuraceappcosc2440@insurance-app-cosc2440.iam.gserviceaccount.com",
+  "client_id": "107984901164766493684",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/insuraceappcosc2440%40insurance-app-cosc2440.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
