@@ -21,7 +21,6 @@ public class PolicyHolderDependentViewController implements Initializable {
     public ListView<Dependent> dependent_listview;
     public TextField searchBar;
     public Label noDependentLbl;
-    public Button addNewDependentBtn;
 
     private Executor executor;
 
@@ -36,9 +35,6 @@ public class PolicyHolderDependentViewController implements Initializable {
         noDependentLbl.setVisible(numOfDependents == 0);
         updateInfoOpt.setOnAction(event -> {
             PolicyHolderModel.getInstance().getPolicyHolderViewFactory().showUpdatePolicyHolderView();
-        });
-        addNewDependentBtn.setOnAction(event -> {
-            PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showAddNewDependentWindow();
         });
         searchBar.textProperty().addListener(new ChangeListener<String>() {
             @Override

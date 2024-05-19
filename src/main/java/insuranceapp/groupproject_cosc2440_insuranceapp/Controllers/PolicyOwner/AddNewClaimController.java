@@ -40,11 +40,18 @@ public class AddNewClaimController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initData();
         cardNumTextField.setDisable(true);
-        for (PolicyHolder policyHolder : PolicyOwnerModel.getInstance().getPolicyHolders()) {
-            insuredPersonComboBox.getItems().add(policyHolder.getFullName() + "\t|\t" + policyHolder.getId() + "\t|\t" + policyHolder.getInsuranceCard());
-        }
-        for (Dependent dependent : PolicyOwnerModel.getInstance().getDependents()) {
-            insuredPersonComboBox.getItems().add(dependent.getFullName() + "\t|\t" + dependent.getId() + "\t|\t" + dependent.getInsuranceCard());
+        if ((PolicyOwnerModel.getInstance().getPolicyOwner().getId() == null)) {
+            for (Dependent dependent : PolicyHolderModel.getInstance().getDependents()) {
+                insuredPersonComboBox.getItems().add(dependent.getFullName() + "\t|\t" + dependent.getId() + "\t|\t" + dependent.getInsuranceCard());
+            }
+            insuredPersonComboBox.getItems().add(PolicyHolderModel.getInstance().getPolicyHolder().getFullName() + "\t|\t" + PolicyHolderModel.getInstance().getPolicyHolder().getId() + "\t|\t" + PolicyHolderModel.getInstance().getPolicyHolder().getInsuranceCard());
+        } else {
+            for (PolicyHolder policyHolder : PolicyOwnerModel.getInstance().getPolicyHolders()) {
+                insuredPersonComboBox.getItems().add(policyHolder.getFullName() + "\t|\t" + policyHolder.getId() + "\t|\t" + policyHolder.getInsuranceCard());
+            }
+            for (Dependent dependent : PolicyOwnerModel.getInstance().getDependents()) {
+                insuredPersonComboBox.getItems().add(dependent.getFullName() + "\t|\t" + dependent.getId() + "\t|\t" + dependent.getInsuranceCard());
+            }
         }
         insuredPersonComboBox.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override
@@ -73,15 +80,22 @@ public class AddNewClaimController implements Initializable {
             if (checkEnoughInfo()) {
                 String insuredPersonId = insuredPersonComboBox.getValue().substring(insuredPersonComboBox.getValue().indexOf("\t|\t") + 3, insuredPersonComboBox.getValue().lastIndexOf("\t|\t"));
                 String claimId = PolicyOwnerModel.getInstance().generateClaimId();
-                Claim newClaim = new Claim(claimId, claimDatePicker.getValue(), insuredPersonId, cardNumTextField.getText(), examDatePicker.getValue(), Double.valueOf(claimAmountTextField.getText()), "NEW", bankNameTextField.getText() + "_" + insuredPersonComboBox.getValue().toString() + "_" + bankNumTextField.getText());
+                Claim newClaim = new Claim(claimId, claimDatePicker.getValue(), insuredPersonId, cardNumTextField.getText(), examDatePicker.getValue(), Double.valueOf(claimAmountTextField.getText()), "NEW", bankNameTextField.getText() + "_" + insuredPersonId + "_" + bankNumTextField.getText());
                 if (PolicyOwnerModel.getInstance().getDatabaseDriver().insertNewClaim(newClaim)) {
                     if (uploadedFileList != null) {
                         uploadFile(uploadedFileList, newClaim.getId(), newClaim.getInsuranceCardNumber());
                     }
-                    PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("INSERT NEW CLAIM FOR " + insuredPersonId, PolicyOwnerModel.getInstance().getPolicyOwner().getId());
-                    PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().updateClaimView();
+                    if ((PolicyOwnerModel.getInstance().getPolicyOwner().getId() == null)) {
+                        PolicyHolderModel.getInstance().getClaims().add(newClaim);
+                        PolicyHolderModel.getInstance().getDatabaseDriver().recordActivityHistory("INSERT NEW CLAIM FOR " + insuredPersonId, PolicyHolderModel.getInstance().getPolicyHolder().getId());
+                        PolicyHolderModel.getInstance().updateClaimView();
+                    } else {
+                        PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("INSERT NEW CLAIM FOR " + insuredPersonId, PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+                        PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().updateClaimView();
+                        PolicyOwnerModel.getInstance().getClaims().add(newClaim);
+                    }
                     PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeCurrentSubStage();
-                    PolicyOwnerModel.getInstance().getClaims().add(newClaim);
+
                 } else {
                     PolicyOwnerModel.getInstance().getViewFactory().getNotificationMsg().set("Add Claim Failed");
                     PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showNotificationMessage();

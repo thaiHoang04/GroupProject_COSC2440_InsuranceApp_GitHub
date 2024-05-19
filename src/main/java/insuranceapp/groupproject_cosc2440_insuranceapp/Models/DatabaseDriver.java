@@ -43,7 +43,11 @@ public class DatabaseDriver {
             pst.setString(6, Double.toString(claim.getClaimAmount()));
             pst.setString(7, claim.getStatus());
             pst.setString(8, claim.getReceiverBankingInfo());
-            pst.setString(9, PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            if (!(PolicyOwnerModel.getInstance().getPolicyOwner().getId() == null)) {
+                pst.setString(9, PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            } else {
+                pst.setString(9, PolicyHolderModel.getInstance().getPolicyHolder().getPolicyOwnerId());
+            }
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyHolder
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.AdminModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Claim;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Views.ClaimCellForDependentFactory;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Views.ClaimCellForPolicyOwner;
 import javafx.beans.value.ChangeListener;
@@ -34,6 +35,7 @@ public class PolicyHolderClaimViewController implements Initializable {
     public Label errorLbl;
     public MenuItem updateInfoOpt;
     public Label policyHolderNameLbl;
+    public Button createNewClaimBtn;
 
     private Executor executor;
     private String filterStatus;
@@ -88,6 +90,9 @@ public class PolicyHolderClaimViewController implements Initializable {
                 }
             }
         });
+        createNewClaimBtn.setOnAction(event -> {
+            PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showAddNewClaimWindow();
+        });
         executor = Executors.newCachedThreadPool(r -> {
             Thread t = new Thread(r);
             t.setDaemon(true);
@@ -98,6 +103,9 @@ public class PolicyHolderClaimViewController implements Initializable {
     public void initData() {
         if (PolicyHolderModel.getInstance().getClaims().isEmpty()) {
             PolicyHolderModel.getInstance().setClaims();
+        }
+        if (PolicyHolderModel.getInstance().getDependents().isEmpty()) {
+            PolicyHolderModel.getInstance().setDependents();
         }
     }
 
