@@ -1,5 +1,6 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Views.InsuranceSurveyor;
 
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.EmployeeModel;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class InsuranceSurveyorMainView implements Initializable {
+    public Label userName;
     @FXML
     private Button changePolicyHolderView;
 
@@ -62,7 +64,7 @@ public class InsuranceSurveyorMainView implements Initializable {
         directPage.setText("All Claims");
         addPaneClaimListView();
 
-
+        userName.setText(EmployeeModel.getInstance().getUsername());
         changePolicyHolderView.setOnMouseClicked(this::switchScenePolicyHolderListView);
         changeDependentView.setOnMouseClicked(this::switchSceneDependentListView);
         changePolicyOwnerView.setOnMouseClicked(this::switchScenePolicyOwnerListView);

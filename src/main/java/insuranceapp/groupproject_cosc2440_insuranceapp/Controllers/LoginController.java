@@ -63,8 +63,9 @@ public class LoginController implements Initializable {
                         PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeStage(stage);
                     }
                     case "IM" -> {
-                        Model.getInstance().getView().showClaimWindow();
+                        id = resultSet.getString("id");
                         databaseDriver.getEmployeeDataById(id);
+                        Model.getInstance().getView().showClaimWindow();
                         PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeStage(stage);
                     }
                     case "ADMIN" -> {

@@ -39,4 +39,8 @@ public class EmployeeModel {
         this.username = username;
         this.role = role;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

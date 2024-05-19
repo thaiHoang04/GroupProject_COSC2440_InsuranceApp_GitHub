@@ -46,13 +46,14 @@ public class UpdateInsuranceEmployeeController implements Initializable {
         saveBtn.setOnAction(actionEvent -> {
             AdminModel.getInstance().getDatabaseDriver().updateAccountData(finalUsername, pwdTxtField.getText(), employee.getId());
             AdminModel.getInstance().getDatabaseDriver().updateEmployee(employee.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
-            if (employee.getId().charAt(0) == 's') {
+            System.out.println(employee.getId());
+            if (employee.getId().contains("s")) {
                 AdminModel.getInstance().updateInsuranceSurveyor(employee.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
             } else {
                 AdminModel.getInstance().updateInsuranceManager(employee.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
             }
             AdminModel.getInstance().getAdminViewFactory().closeCurrentSubStage();
-            AdminModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE POLICY HOLDER INFORMATION OF " + employee.getId(), "Admin");
+            AdminModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE EMPLOYEE INFORMATION OF " + employee.getId(), "Admin");
         });
     }
 }

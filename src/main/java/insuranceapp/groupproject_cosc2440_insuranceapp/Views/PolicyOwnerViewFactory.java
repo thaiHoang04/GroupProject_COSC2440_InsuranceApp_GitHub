@@ -129,7 +129,7 @@ public class PolicyOwnerViewFactory {
     public void showUpdatePolicyHolderView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PolicyOwner/UpdatePolicyHolderInfoView.fxml"));
         loader.setController(new UpdatePolicyHolderInfoViewForPolicyOwnerController(PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder()));
-        createSubStage(loader, "Update Policy Holder Info");
+        create2ndSubStage(loader, "Update Policy Holder Info");
     }
 
     public void showUpdateDependentView(Dependent dependent) {

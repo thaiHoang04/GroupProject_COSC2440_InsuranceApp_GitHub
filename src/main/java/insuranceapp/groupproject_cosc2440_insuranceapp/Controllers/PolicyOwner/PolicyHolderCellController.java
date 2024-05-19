@@ -37,7 +37,9 @@ public class PolicyHolderCellController implements Initializable {
         });
         deleteBtn.setOnAction(event -> {
             if (PolicyOwnerModel.getInstance().deletePolicyHolder(policyHolder)) {
+                PolicyOwnerModel.getInstance().getDependents().removeIf(dependent -> dependent.getPolicyHolderId().equals(policyHolder.getId()));
                 PolicyOwnerModel.getInstance().getPolicyHolders().remove(policyHolder);
+                PolicyOwnerModel.getInstance().updatePolicyHolderView();
                 PolicyOwnerModel.getInstance().getViewFactory().getNotificationMsg().set("Delete policy holder Success");
                 PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE POLICY HOLDER " + policyHolder.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
             }

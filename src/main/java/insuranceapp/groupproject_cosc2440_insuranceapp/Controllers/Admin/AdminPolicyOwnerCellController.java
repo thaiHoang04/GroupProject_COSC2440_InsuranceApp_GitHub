@@ -46,7 +46,12 @@ public class AdminPolicyOwnerCellController implements Initializable {
         });
         deleteBtn.setOnAction(event -> {
             // Delete policy owner
-            if (AdminModel.getInstance().getDatabaseDriver().deletePolicyOwnerById(policyOwner.getId())) {
+            if (AdminModel.getInstance().getDatabaseDriver().deletePolicyOwnerById(policyOwner.getId())
+                    && AdminModel.getInstance().getDatabaseDriver().deleteAccountData(policyOwner.getId())
+                    && AdminModel.getInstance().getDatabaseDriver().deleteClaimByPolicyOwnerId(policyOwner.getId())
+                    && AdminModel.getInstance().getDatabaseDriver().deleteInsuranceCardByPolicyOwnerId(policyOwner.getId())
+                    && AdminModel.getInstance().getDatabaseDriver().deleteDependentByPolicyOwnerId(policyOwner.getId())
+                    && AdminModel.getInstance().getDatabaseDriver().deletePolicyHolderByPolicyOwnerID(policyOwner.getId())){
                 AdminModel.getInstance().getDatabaseDriver().deleteAccountData(policyOwner.getId());
                 AdminModel.getInstance().getPolicyOwners().remove(policyOwner);
                 AdminModel.getInstance().getAdminViewFactory().updatePolicyOwnerView();

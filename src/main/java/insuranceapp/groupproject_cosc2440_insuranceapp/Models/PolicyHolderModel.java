@@ -104,4 +104,15 @@ public class PolicyHolderModel {
             }
         }
     }
+
+    public void updateDependent(String id,String name, String phone, String email, String address) {
+        for (Dependent dependent : dependents) {
+            if (dependent.getId().equals(id)) {
+                dependent.setFullName(name);
+                dependent.setPhoneNumber(phone);
+                dependent.setEmail(email);
+                dependent.setAddress(address);
+            }
+        }
+    }
 }

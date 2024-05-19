@@ -1,5 +1,7 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.InsuranceManager;
 
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.DatabaseDriver;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.EmployeeModel;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -59,6 +61,8 @@ public class ClaimCellController implements Initializable {
             Database.setConnectionDatabase();
             Statement statement = Database.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             statement.executeUpdate(String.format("UPDATE claims SET status = 'APPROVED' WHERE fid = '%s' AND status = 'PENDING'", this.claim.claimIDProperty().get()));
+            DatabaseDriver dbDriver = new DatabaseDriver();
+            dbDriver.recordActivityHistory(String.format("APPROVE CLAIM ID: ‘%s’ BY INSURANCE MANAGER", this.claim.getClaimID(), this.claim.statusProperty().get()), EmployeeModel.getInstance().getId());
             this.claim.statusProperty().set("APPROVED");
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,6 +74,8 @@ public class ClaimCellController implements Initializable {
             Database.setConnectionDatabase();
             Statement statement = Database.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             statement.executeUpdate(String.format("UPDATE claims SET status = 'REJECTED' WHERE fid = '%s' AND status = 'PENDING'", this.claim.claimIDProperty().get()));
+            DatabaseDriver dbDriver = new DatabaseDriver();
+            dbDriver.recordActivityHistory(String.format("REJECT CLAIM ID: ‘%s’ BY INSURANCE MANAGER", this.claim.getClaimID(), this.claim.statusProperty().get()), EmployeeModel.getInstance().getId());
             this.claim.statusProperty().set("REJECTED");
         } catch (Exception e) {
             e.printStackTrace();

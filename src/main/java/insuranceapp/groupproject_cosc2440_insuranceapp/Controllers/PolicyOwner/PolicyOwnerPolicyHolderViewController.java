@@ -2,6 +2,7 @@ package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner;
 
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.AdminModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolder;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwner;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Views.PolicyHolderCellFactory;
 import javafx.beans.value.ChangeListener;
@@ -32,6 +33,7 @@ public class  PolicyOwnerPolicyHolderViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initData();
+        PolicyOwnerModel.getInstance().setPolicyOwnerPolicyHolderViewController(this);
         noPolicyHolderLbl.setVisible(false);
         policyOwnerNameLbl.textProperty().bind(PolicyOwnerModel.getInstance().getPolicyOwner().nameProperty());
         PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().setPolicyOwnerBeneficiariesViewController(this);

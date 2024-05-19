@@ -129,7 +129,7 @@ public class AdminModel {
     }
 
     public void updateInsuranceManager(String id, String fullName, String phoneNumber, String email, String address) {
-        for (Employee insuranceManagerTmp : AdminModel.getInstance().getInsuranceManagers()) {
+        for (Employee insuranceManagerTmp : insuranceManagers) {
             if (insuranceManagerTmp.getId().equals(id)) {
                 insuranceManagerTmp.setFullName(fullName);
                 insuranceManagerTmp.setPhone(phoneNumber);
@@ -140,7 +140,7 @@ public class AdminModel {
     }
 
     public void updateInsuranceSurveyor(String id, String fullName, String phoneNumber, String email, String address) {
-        for (Employee insuranceSurveyorTmp : AdminModel.getInstance().getInsuranceSurveyors()) {
+        for (Employee insuranceSurveyorTmp : insuranceSurveyors) {
             if (insuranceSurveyorTmp.getId().equals(id)) {
                 insuranceSurveyorTmp.setFullName(fullName);
                 insuranceSurveyorTmp.setPhone(phoneNumber);

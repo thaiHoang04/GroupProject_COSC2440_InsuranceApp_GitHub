@@ -28,7 +28,7 @@ public class AddNewInsuranceSurveyorController implements Initializable {
                 String id = AdminModel.getInstance().generateIdForInsuranceSurveyor();
                 Employee employee = new Employee(id,  phoneNumTxtField.getText(), addressTxtField.getText() ,fullNameTxtField.getText() ,emailTxtField.getText());
                 if (AdminModel.getInstance().getDatabaseDriver().insertNewEmployee(employee) && AdminModel.getInstance().getDatabaseDriver().insertAccountData(usernameTxtField.getText(), pwdTxtField.getText(), id, "IS")) {
-                    AdminModel.getInstance().addInsuranceManagers(employee);
+                    AdminModel.getInstance().addInsuranceSurveyors(employee);
                     AdminModel.getInstance().getAdminViewFactory().updateInsuranceManagersView();
                     AdminModel.getInstance().getDatabaseDriver().recordActivityHistory("ADD NEW INSURANCE SURVEYOR " + employee.getId(), "admin");
                     AdminModel.getInstance().getAdminViewFactory().closeCurrentSubStage();

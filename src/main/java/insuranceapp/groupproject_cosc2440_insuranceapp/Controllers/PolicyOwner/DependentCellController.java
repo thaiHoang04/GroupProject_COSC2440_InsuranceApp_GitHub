@@ -29,19 +29,17 @@ public class DependentCellController implements Initializable {
         updateInfoBtn.setOnAction(event -> {
             PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().showUpdateDependentView(dependent);
         });
-
+        if (!PolicyHolderModel.getInstance().getDependents().isEmpty()) {
+            deleteBtn.setDisable(true);
+            deleteBtn.setVisible(false);
+        }
         deleteBtn.setOnAction(event -> {
             PolicyOwnerModel.getInstance().getDatabaseDriver().deleteDependent(dependent.getId());
             PolicyOwnerModel.getInstance().getDatabaseDriver().deleteClaimByCustomerId(dependent.getId());
             PolicyOwnerModel.getInstance().getDatabaseDriver().deleteAccountData(dependent.getId());
-            if (!PolicyHolderModel.getInstance().getDependents().isEmpty()) {
-                PolicyHolderModel.getInstance().getDependents().remove(dependent);
-                PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE DEPENDENT " + dependent.getId(), PolicyHolderModel.getInstance().getPolicyHolder().getId());
-            } else {
-                PolicyOwnerModel.getInstance().getDependentsOfCurrentPolicyHolder().remove(dependent);
-                PolicyOwnerModel.getInstance().getDependents().remove(dependent);
-                PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE DEPENDENT " + dependent.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
-            }
+            PolicyOwnerModel.getInstance().getDependentsOfCurrentPolicyHolder().remove(dependent);
+            PolicyOwnerModel.getInstance().getDependents().remove(dependent);
+            PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("DELETE DEPENDENT " + dependent.getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
         });
     }
 

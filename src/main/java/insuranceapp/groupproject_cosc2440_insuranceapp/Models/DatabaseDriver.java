@@ -292,10 +292,38 @@ public class DatabaseDriver {
         return flag;
     }
 
+    public boolean deleteClaimByInsuranceCard(String id) {
+        boolean flag = true;
+        try {
+            PreparedStatement pst = conn.prepareStatement("DELETE FROM claims WHERE card_number = ?");
+            pst.setString(1, id);
+            pst.executeUpdate();
+            PolicyOwnerModel.getInstance().getClaims().removeIf(claim -> claim.getInsuranceCardNumber().equals(id));
+            PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().updateClaimView();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+
     public boolean deleteInsuranceCard(String id) {
         boolean flag = true;
         try {
             PreparedStatement pst = conn.prepareStatement("DELETE FROM insurance_cards WHERE insurance_id = ?");
+            pst.setString(1, id);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+
+    public boolean deleteInsuranceCardByPolicyOwnerId(String id) {
+        boolean flag = true;
+        try {
+            PreparedStatement pst = conn.prepareStatement("DELETE FROM insurance_cards WHERE policy_owner = ?");
             pst.setString(1, id);
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -324,6 +352,55 @@ public class DatabaseDriver {
             PreparedStatement pst = conn.prepareStatement("DELETE FROM policy_owners WHERE poid = ?");
             pst.setString(1, id);
             pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+
+    public boolean deleteClaimByPolicyOwnerId(String id) {
+        boolean flag = true;
+        try {
+            PreparedStatement pst = conn.prepareStatement("DELETE FROM claims WHERE policy_owner = ?");
+            pst.setString(1, id);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+
+    public boolean deleteDependentByPolicyOwnerId(String id) {
+        boolean flag = true;
+        try {
+            PreparedStatement pst = conn.prepareStatement("SELECT *  FROM dependents WHERE poid = ?");
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String did = rs.getString("did");
+                deleteDependent(did);
+                deleteAccountData(did);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+
+    public boolean deletePolicyHolderByPolicyOwnerID(String id) {
+        boolean flag = true;
+        try {
+            PreparedStatement pst = conn.prepareStatement("SELECT *  FROM policy_holders WHERE poid = ?");
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String pid = rs.getString("pid");
+                deletePolicyHolder(pid);
+                deleteAccountData(pid);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             flag = false;
@@ -719,12 +796,11 @@ public class DatabaseDriver {
     public List<Employee> searchListInsuranceManagerWithId(String searchString) {
         List<Employee> employeeList = new ArrayList<>();
         try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM insurance_employees WHERE id LIKE ?")) {
-            if (searchString.substring(0, 1).equals("m")) {
+            if (searchString.charAt(0) == 'm') {
                 pstmt.setString(1, searchString + "%");
             } else {
                 pstmt.setString(1, "m-%" + searchString + "%");
             }
-            pstmt.setString(1,  searchString + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 String id, fullName, email, phone, address;

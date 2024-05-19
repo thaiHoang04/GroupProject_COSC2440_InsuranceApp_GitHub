@@ -1,5 +1,6 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Models;
 
+import insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner.PolicyOwnerPolicyHolderViewController;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Views.PolicyOwnerViewFactory;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Views.ViewFactory;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ public class PolicyOwnerModel {
     private ObservableList<Dependent> dependentsOfCurrentPolicyHolder;
     private PolicyHolder currentSelectedPolicyHolder;
 
+    private PolicyOwnerPolicyHolderViewController policyOwnerPolicyHolderViewController;
 
     public PolicyOwnerModel() {
         this.viewFactory = new ViewFactory();
@@ -40,6 +42,14 @@ public class PolicyOwnerModel {
             policyOwnerModel = new PolicyOwnerModel();
         }
         return policyOwnerModel;
+    }
+
+    public void setPolicyOwnerPolicyHolderViewController(PolicyOwnerPolicyHolderViewController policyOwnerPolicyHolderViewController) {
+        this.policyOwnerPolicyHolderViewController = policyOwnerPolicyHolderViewController;
+    }
+
+    public void updatePolicyHolderView() {
+        this.policyOwnerPolicyHolderViewController.numberOfPolicyHolder.setText(Integer.toString(policyHolders.size()));
     }
 
     public ViewFactory getViewFactory() {
@@ -202,7 +212,7 @@ public class PolicyOwnerModel {
     }
 
     public boolean deletePolicyHolder(PolicyHolder policyHolder) {
-        return databaseDriver.deletePolicyHolder(policyHolder.getId()) && databaseDriver.deleteInsuranceCard(policyHolder.getInsuranceCard()) && databaseDriver.deleteAccountData(policyHolder.getId()) && databaseDriver.deleteDependentByPolicyHolderId(policyHolder.getId());
+        return databaseDriver.deletePolicyHolder(policyHolder.getId()) && databaseDriver.deleteInsuranceCard(policyHolder.getInsuranceCard()) && databaseDriver.deleteAccountData(policyHolder.getId()) && databaseDriver.deleteDependentByPolicyHolderId(policyHolder.getId()) && databaseDriver.deleteClaimByInsuranceCard(policyHolder.getInsuranceCard());
     }
 
     public void resetPolicyHolders() {

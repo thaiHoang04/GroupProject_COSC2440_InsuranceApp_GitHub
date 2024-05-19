@@ -1,6 +1,7 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.PolicyOwner;
 
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Dependent;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyHolderModel;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Models.PolicyOwnerModel;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -45,9 +46,15 @@ public class UpdateDependentInfoViewController implements Initializable {
             PolicyOwnerModel.getInstance().getDatabaseDriver().updateAccountData(finalUsername, pwdTextField.getText(), dependent.getId());
             PolicyOwnerModel.getInstance().getDatabaseDriver().updateDependent(dependent.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
             PolicyOwnerModel.getInstance().updateDependents(dependent.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
+            PolicyHolderModel.getInstance().updateDependent(dependent.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
             PolicyOwnerModel.getInstance().updateDependentsOfCurrentPolicyHolder(dependent.getId(), nameTxtField.getText(), phoneTxtField.getText(), emailTxtField.getText(), addressTxtField.getText());
             PolicyOwnerModel.getInstance().getPolicyOwnerViewFactory().closeCurrent2ndSubStage();
-            PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE DEPENDENT INFORMATION OF " + dependent.getId() + " FROM " + PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder().getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            if (PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder() != null) {
+                PolicyOwnerModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE DEPENDENT INFORMATION OF " + dependent.getId() + " FROM " + PolicyOwnerModel.getInstance().getCurrentSelectedPolicyHolder().getId(), PolicyOwnerModel.getInstance().getPolicyOwner().getId());
+            } else {
+                PolicyHolderModel.getInstance().getDatabaseDriver().recordActivityHistory("UPDATE DEPENDENT INFORMATION OF " + dependent.getId() + " FROM " + PolicyHolderModel.getInstance().getPolicyHolder().getId(), PolicyHolderModel.getInstance().getPolicyHolder().getId());
+            }
+
         });
     }
 }

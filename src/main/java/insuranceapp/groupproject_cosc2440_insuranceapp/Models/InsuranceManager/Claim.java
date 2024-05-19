@@ -82,4 +82,8 @@ public class Claim {
     public void setDocument(String documentName) {
         this.document.set(documentName);
     }
+
+    public String getClaimID() {
+        return claimID.get();
+    }
 }
