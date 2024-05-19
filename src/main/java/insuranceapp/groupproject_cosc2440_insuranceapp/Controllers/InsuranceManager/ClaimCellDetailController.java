@@ -25,7 +25,7 @@ public class ClaimCellDetailController implements Initializable {
     }
 
     public void setValue() {
-        claimID.textProperty().bind(claim.cardIDProperty());
+        claimID.textProperty().bind(claim.claimIDProperty());
         insuredPerson.textProperty().bind(claim.insuredPersonProperty());
         cardID.textProperty().bind(claim.cardIDProperty());
         status.textProperty().bind(claim.statusProperty());

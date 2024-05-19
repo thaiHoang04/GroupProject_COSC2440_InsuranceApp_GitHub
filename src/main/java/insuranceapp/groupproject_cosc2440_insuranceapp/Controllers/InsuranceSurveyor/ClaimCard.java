@@ -1,7 +1,7 @@
 package insuranceapp.groupproject_cosc2440_insuranceapp.Controllers.InsuranceSurveyor;
 
-import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Claim;
-import insuranceapp.groupproject_cosc2440_insuranceapp.Models.Database;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.*;
+import insuranceapp.groupproject_cosc2440_insuranceapp.Models.InsuranceManager.Model;
 import insuranceapp.groupproject_cosc2440_insuranceapp.Views.InsuranceSurveyor.InsuranceSurveyorClaimDetailView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,10 +118,13 @@ public class ClaimCard implements Initializable {
     public void updateClaimFromDatabase(Claim claim, String status) {
         try {
             Database db = new Database();
+            String oldStatus = claim.getStatus();
             Statement stm = db.getCon().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             int update = stm.executeUpdate(String.format("UPDATE claims set status='%s' WHERE fid='%s'", status.toUpperCase(), claim.getId()));
             claim.statusProperty().set(status.toUpperCase());
+            DatabaseDriver dbDriver = new DatabaseDriver();
+            dbDriver.recordActivityHistory(String.format("UPDATE CLAIM ID: '%s' WITH STATUS FROM '%s' TO '%s' by INSURANCE SURVEYOR", claim.getId(), oldStatus, claim.getStatus()), EmployeeModel.getInstance().getId());
         } catch(SQLException e) {
             System.out.println("getDocumentList Failed" + e.getMessage());
         }
